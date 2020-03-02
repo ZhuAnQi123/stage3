@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #daddy {
+            margin: auto;
+            width: 440px;
+            border-radius: 5%;
+            height: auto;
+            border: #ccc 4px solid;
+            padding: 10px 20px;
+        }
+
+        #daddy input {
+            width: 400px;
+            border: darkorange 1px solid;
+            height: 30px;
+            line-height: 30px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        ul {
+            width: 400px;
+            height: auto;
+            border: orange 2px dotted;
+        }
+
+        ul li {
+            border-bottom: 1px solid #ccc;
+            box-sizing: border-box;
+            padding-left: 5px;
+            line-height: 25px;
+            color: darksalmon;
+            height: 25px;
+        }
+
+        ul li a {
+            float: right;
+            margin-left: 5px;
+        }
+
+        button {
+            background-color: rgb(224, 224, 7);
+            color: white;
+            font-weight: 800;
+            height: 30px;
+        }
+
+        .highlight {
+            background-color: greenyellow;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="daddy">
+        <input type="text" placeholder="hostband list" v-model='inputValue'>
+        <button @click='add'>ADD</button>
+        <ul>
+            <li v-for='(item,index) in list' v-bind:class='item.state?"":"highlight"'>
+                {{item.name}}
+                <a href="#" class="demo" v-if='item.state'>FINISHED</a>
+                <a href="#" class="demo" v-else @click='finish(index)'>UNFINISH</a>
+                <a href="#" class="demo" @click='del(index)'>DEL</a>
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="../../vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: "#daddy",
+        data: {
+            list: [{ name: 'travis scrott', state: false },
+            { name: 'post malon', state: false },
+            { name: 'Migos', state: false }],
+            inputValue: 'hostband list'
+        },
+        methods: {
+            add() {
+                this.list.unshift({ name: this.inputValue, state: false })
+            },
+            finish(index) {
+                this.list[index].state = true;
+            },
+            del(index) {
+                this.list.splice(index, 1)
+            }}})
+</script>
+</html>

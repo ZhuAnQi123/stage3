@@ -1,0 +1,8 @@
+
+/* 这个文件import到总的main.js中 */
+
+*{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}

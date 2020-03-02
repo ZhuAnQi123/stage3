@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
+  <script src='../vue.js'> </script>
+  <style>
+    .test{
+      width: 100px;
+      height: 100px;
+      background: red;
+    }
+    .swiper-container {
+        width: 600px;
+        height: 300px;
+        background: red;
+    }  
+  </style>
+</head>
+<body>
+  <div id="app">
+    <banner></banner>
+    <!-- <banner></banner>
+    <banner></banner> -->
+  </div>
+  <!-- 轮播图组件 -->
+  <template id="banner">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+          <div class="swiper-slide" v-for='item in list'>
+            <img :src="item" alt="">
+          </div>
+      </div>
+    </div>
+  </template>
+<script>
+Vue.component('banner',{
+  template:'#banner',
+  data(){
+    return{
+      list:[]
+    }
+  },
+  methods: {
+    // 初始化轮播图
+    initBanner(){
+      var mySwiper = new Swiper ('.swiper-container', {
+          // direction: 'vertical', // 垂直切换选项
+          loop: true, // 循环模式选项
+
+        })   
+    }
+  },
+  mounted() {
+    // 模拟网络请求数据
+    setTimeout(()=>{
+      // 【】-》【1，2，3】
+      this.list = [
+        'https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2888261511,2808819884&fm=26&gp=0.jpg',
+        'https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2164734927,1367682520&fm=26&gp=0.jpg',
+        'https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2422437459,525040718&fm=26&gp=0.jpg'
+      ]
+      // 真实dom没有更新
+      // 上一次数据修改 导致dom更新结束之后在执行内部的回调
+      this.$nextTick(()=>{
+        this.initBanner()
+      })
+    
+    },1000)
+      // 组件创建成功过之后会直接执行 
+      
+  /*
+    网络请求是异步 dom的更新是异步的
+    初始化的时候 数据没有回来 导致初始化缺少元素 轮播图不能滚动
+    数据发生改变 先改变的是虚拟dom 在去修改真实dom 这个过程是一个异步的
+  */ 
+  
+  },
+})
+let vm=new Vue({
+  el:"#app",
+})
+
+</script>
+</body>
+</html>

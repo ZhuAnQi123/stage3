@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> a.隔行变色 √
+        b.鼠标滑过有特效
+        c.写一个下拉菜单 可以控制隔行变色的颜色
+    </title>
+    <style>
+        * {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #daddy {
+            margin: auto;
+            width: 800px;
+            border-radius: 5%;
+            height: auto;
+            border: #ccc 5px solid;
+            padding: 10px 50px;
+        }
+
+        tr td {
+            width: 200px;
+            height: 20px;
+            padding-left: 70px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .highLight {
+            background-color: aqua;
+            color: whitesmoke;
+        }
+
+        .aliceblue {
+            background: aliceblue;
+        }
+
+        .pink {
+            background-color: pink;
+        }
+
+        .orange {
+            background-color: orange;
+        }
+
+        tr td:hover {
+            background-color: violet;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="daddy">
+        <select @change='change'>
+            <option v-for="(item,index) in colorSelector" :value='index'>{{item}}</option>
+        </select>
+        <table cellspacing="0">
+            <tr v-for="(trItem,trIndex) in table" :class='trIndex%2?"":colorSelector[colorIndex]'>
+                <td v-for='(tdItem,tdIndex) in trItem'>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="../../vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#daddy',
+        data: {
+            table: [[111, 111, 111, 111], [111, 111, 111, 111], [111, 111, 111, 111], [111, 111, 111, 111]],
+            colorSelector: ['aliceblue', 'orange', 'pink'],
+            colorIndex: 0,
+        },
+        methods: {
+            change(e) {
+                this.colorIndex = e.target.value
+            }
+        }
+    })
+</script>
+
+</html>

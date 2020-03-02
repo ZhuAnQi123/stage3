@@ -1,0 +1,18 @@
+
+
+// ******此文件做适配。
+//******再将此文件@import到index.less中
+
+
+/*
+ unit第一个参数是表达式，第二个参数单位
+    */
+    .w(@px){
+        width: unit(@px/@remSize,rem);
+      }
+      .h(@px){
+        height:unit(@px/@remSize,rem);
+      }
+      .l_h(@px){
+        line-height:unit(@px/remSize,rem) ;
+      }

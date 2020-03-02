@@ -1,0 +1,26 @@
+{
+  "name": "NZ-1911",
+  "version": "1.0.0",
+  "description": "[随堂代码](https://github.com/fchangjun/NZ-1911.git):https://github.com/fchangjun/NZ-1911.git",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fchangjun/NZ-1911.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fchangjun/NZ-1911/issues"
+  },
+  "homepage": "https://github.com/fchangjun/NZ-1911#readme",
+  "devDependencies": {
+    "jquery": "^3.4.1"
+  },
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
+}
