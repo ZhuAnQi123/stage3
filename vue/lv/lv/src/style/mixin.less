@@ -1,0 +1,33 @@
+
+// 通过mixin，将你从页面上量到的尺寸转化为rem单位
+
+
+
+/*
+ unit第一个参数是表达式，第二个参数单位
+    */
+    .w(@px){
+        width: unit(@px/@remSize,rem);
+      }
+      .h(@px){
+        height:unit(@px/@remSize,rem);
+      }
+      .m_r(@px){
+        margin-right:unit(@px/@remSize,rem);
+      }
+      .m_t(@px){
+        margin-top:unit(@px/@remSize,rem);
+      }
+    
+      .m_l(@px){
+        margin-left:unit(@px/@remSize,rem);
+      }
+      .l_h(@px){
+        line-height:unit(@px/@remSize,rem) ;
+      }
+      .f_z(@px){
+        font-size:unit(@px/@remSize,rem) ;
+      }
+      .t(@px){
+        top: unit(@px/@remSize,rem);
+      }

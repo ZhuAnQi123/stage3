@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../base/react.min.js"></script>
+    <script src="../../base/react-dom.min.js"></script>
+    <script src="../../base/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<script type='text/babel'>
+let Multiplication = React.createClass({
+  getInitialState(){
+    return {
+      //这里写传入的数据
+    }
+  },
+  render(){
+        var arr = [];
+        for(let i = 1;i <= 9; i++){
+            let temp = [];
+            for(let j = 1;j <= i;j++){
+                temp.push(<td style={{border:"1px solid #353"}} key = {j}>{i} X {j} = {i*j}</td>)
+            }
+            arr.push(<tr key = {i}>{temp}</tr>);
+        }
+        //👇注意不能在 return 后面换行的，因为换行就默认 return undefined 了。如果你非要换行必须像我一样在上面加个圆括号在圆括号里面换行。
+        return (<div><table style={{borderCollapse:"collapse"}}><tbody>{arr}</tbody></table></div>);
+    }
+})
+
+ReactDOM.render(<Multiplication/>,document.getElementById('app'))
+
+</script>
+</html>

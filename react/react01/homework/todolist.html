@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../base/react.min.js"></script>
+    <script src="../../base/react-dom.min.js"></script>
+    <script src="../../base/browser.min.js"></script>
+    <style>
+        #app {
+            border: 1px solid greenyellow;
+            width: 300px;
+        }
+
+        .finished {
+            color: greenyellow;
+        }
+
+        li span {
+            float: right;
+            font-size: 12px;
+            color: red;
+        }
+
+        ul {
+            width: 300px;
+            padding: 0 5px;
+            box-sizing: border-box;
+        }
+
+        input {
+            width: 235px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 18px;
+        }
+
+        button {
+            height: 32px;
+            width: 60px;
+        }
+
+        li {
+            list-style: none;
+            width: 290px;
+            height: 30px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+<!-- 1.点击第二次才能添加  2.无法变色 -->
+
+    <script type="text/babel">
+        let List = React.createClass({
+            //数据
+            getInitialState() {
+                return {
+                    arr: [{
+                        things: '点解饭仲未有的食',
+                        finished: false,
+                    }, {
+                        things: '哈哈哈哈',
+                        finished: false,
+                    }],
+                    inpValu: null,
+                }
+            },
+            //获取输入框值
+            handelChange(e) {
+                this.setState({
+                    inpValu: e.target.value
+                })
+            },
+            //渲染页面
+            render() {
+                return (
+                    <div>
+                        {/*注意一定要用div包住，就连注释写在外面也不行！*/}
+                        <input type="text" onBlur={this.handelChange.bind(this)} />
+                        <button onClick={() => {
+                            if (this.state.inpValu) {
+                                this.state.arr.push({
+                                    things: this.state.inpValu,
+                                    finished: false,
+                                });
+                            }
+                            console.log(this.state.arr);
+                        }}>添加</button>
+                        <ul>
+                            {this.state.arr.map((item, index) => {
+                                return (
+                                    <li>{item.things} <span className={item.finished ? "finished" : ''} onClick={() => {
+                                        {/*???????????????????/*/ }
+                                        { item.finished = !item.finished }
+                                    }}>{item.finished ? "已完成" : '未完成'}</span></li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                )
+            }
+        })
+
+        ReactDOM.render(<List />, document.getElementById('app'))
+    </script>
+</body>
+
+</html>
