@@ -4,9 +4,9 @@
       <h2>今日特卖</h2>
       <p>
         剩余
-        <span>11</span>:
-        <span>11</span>:
-        <span>11</span>
+        <span>{{remainingHours}}</span>:
+        <span>{{remainingMins}}</span>:
+        <span>{{remainingSeconds}}</span>
       </p>
     </div>
     <div class="wrapper" ref="wrapper">
@@ -19,7 +19,7 @@
             <p class="dercription">{{item.shortDescription}}</p>
             <div class="percentage">
               <span class="Bar">
-                <span class="sold" :style='"width:"+item.soldLength+"rem"'></span>
+                <span class="sold" :style="'width:'+item.soldLength+'rem'"></span>
               </span>
               <span class="rest">已抢{{parseInt( 100*item.soldQty/item.totalQty)}}%</span>
             </div>
@@ -48,6 +48,12 @@ export default {
     return {
       hotGoods: [],
       page: 1,
+      endTime: 0,
+      presentTime: 0,
+      remainingHours: 0,
+      remainingMins: 0,
+      remainingSeconds: 0,
+      timeGap: 0
     };
   },
   methods: {
@@ -76,11 +82,11 @@ export default {
           .catch(err => {
             console.log("err :", err);
           });
-          //不加以下代码只执行一次
-          setTimeout(() => {
-            this.BS.finishPullUp()
-            this.BS.refresh()
-        }, 500)
+        //不加以下代码只执行一次
+        setTimeout(() => {
+          this.BS.finishPullUp();
+          this.BS.refresh();
+        }, 500);
       });
     }
   },
@@ -88,7 +94,18 @@ export default {
     //传入浏览中的页码
     getHotgoods(this.page)
       .then(res => {
+        //得到的数据
         this.hotGoods.push(res.data.flashSaleData.productList.rows);
+
+        //得到秒杀时间
+        this.endTime = new Date(res.data.flashSaleData.toDate).getTime(); //2020-03-18 09:00:00
+        let timer = setInterval(() => {
+          this.presentTime = Date.now();
+          this.timeGap = (this.endTime - this.presentTime) / 1000;
+          this.remainingSeconds = Math.floor(this.timeGap) % 60;
+          this.remainingMins = Math.floor(this.timeGap / 60) % 60;
+          this.remainingHours = Math.floor(this.timeGap / 60 / 60) % 24;
+        }, 1000);
       })
       .catch(err => {
         console.log("err :", err);
@@ -99,7 +116,8 @@ export default {
     //计算进度条长度再插入数组中
     for (let index = 0; index < this.hotGoods[0].length; index++) {
       this.hotGoods[0][index].soldLength =
-       1.92* this.hotGoods[0][index].soldQty / this.hotGoods[0][index].totalQty;
+        (1.92 * this.hotGoods[0][index].soldQty) /
+        this.hotGoods[0][index].totalQty;
     }
   },
   created() {

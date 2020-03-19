@@ -54,60 +54,83 @@
 <body>
     <div id="app"></div>
 
-<!-- 1.点击第二次才能添加  2.无法变色 -->
-
     <script type="text/babel">
-        let List = React.createClass({
-            //数据
+        let Box = React.createClass({
             getInitialState() {
                 return {
-                    arr: [{
-                        things: '点解饭仲未有的食',
-                        finished: false,
-                    }, {
-                        things: '哈哈哈哈',
-                        finished: false,
-                    }],
-                    inpValu: null,
+                    datas: [{ msg: 'ice cream', finish: true },
+                    { msg: 'hambegaer', finish: false },
+                    { msg: 'toothstick', finish: false },
+                    ]
                 }
             },
-            //获取输入框值
-            handelChange(e) {
-                this.setState({
-                    inpValu: e.target.value
-                })
+            //在input子组件调用添加数据的方法
+            add(msg) {
+                //👇必须这样写
+                let datas = this.state.datas
+                datas.push({ msg: msg, finish: false })
+                this.setState({ datas })
             },
-            //渲染页面
+            // 删除数据的方法 传给list 子组件调用
+            del(index) {
+                let datas = this.state.datas
+                datas.splice(index, 1)
+                this.setState({ datas })
+            },
+            // 修改数据的方法传给list 子组件调用
+            updata(index) {
+                let datas = this.state.datas
+                datas[index].finish = true
+                this.setState({ datas })
+            }
+            , render() {
+                let { datas } = this.state
+                return (
+                    <div>
+                        <Input addFun={this.add}></Input>
+                        <List list={datas} defFun={this.del} updateFun={this.update}></List>
+                    </div>
+                )
+            }
+
+        })
+        let Input = React.createClass({
             render() {
                 return (
                     <div>
-                        {/*注意一定要用div包住，就连注释写在外面也不行！*/}
-                        <input type="text" onBlur={this.handelChange.bind(this)} />
+                        <input type="text" ref='input' />
                         <button onClick={() => {
-                            if (this.state.inpValu) {
-                                this.state.arr.push({
-                                    things: this.state.inpValu,
-                                    finished: false,
-                                });
-                            }
-                            console.log(this.state.arr);
-                        }}>添加</button>
-                        <ul>
-                            {this.state.arr.map((item, index) => {
-                                return (
-                                    <li>{item.things} <span className={item.finished ? "finished" : ''} onClick={() => {
-                                        {/*???????????????????/*/ }
-                                        { item.finished = !item.finished }
-                                    }}>{item.finished ? "已完成" : '未完成'}</span></li>
-                                )
-                            })}
-                        </ul>
-                    </div>
+                            let value = this.refs.input.value
+                            this.props.addFun(value)
+                        }}>add</button></div>
+                )
+            }
+        })
+        let List = React.createClass({
+            render() {
+                let { list } = this.props
+                return (
+                    <ul>
+                        {list.map((item, index) => {
+                            return (
+                                <li>{item.msg}
+                                    <button onClick={() => {
+                                        this.props.defFun(index)
+                                    }}>删除</button>
+                                    {item.finish ?
+                                        <span>已完成</span> :
+                                        <button onClick={() => {
+                                            this.props.updateFun(index)
+                                        }}>待完成</button>}
+                                </li>
+                            )
+                        })}
+                    </ul>
                 )
             }
         })
 
-        ReactDOM.render(<List />, document.getElementById('app'))
+        ReactDOM.render(<Box />, app)
     </script>
 </body>
 

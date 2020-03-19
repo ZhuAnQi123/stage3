@@ -9,6 +9,7 @@ import My from '../components/My'
 import Hot from '../components/Hot'
 import classification from '../components/classification'
 import ListPage from '../components/ListPage'
+import Details from '../components/Details'
 
 
 const routes = [
@@ -19,19 +20,25 @@ const routes = [
   {
     path: '/cart',
     component: Cart
-  },{
+  }, {
     path: '/hot',
     component: Hot
-  },{
+  }, {
     path: '/my',
     component: My
-  },{
+  }, {
     path: '/classification',
     component: classification,
-    children:[
+    children: [
       {
         path: '/classification/:id',
-        component: ListPage
+        component: ListPage,
+        children: [
+          {
+            path: '/classification/:id/:goodId',
+            component: Details,
+          }
+        ]
       }
     ]
   },

@@ -12,7 +12,7 @@ export default {
   methods: {
     change(){
       // 通过commit方法触发mutation 
-      // 参数1 要触发的方法名
+      // 参数1 要触发的方法名 
       // 参数2 是要传递的数据
       this.$store.commit('changeName',{name:123,pass:456})
     }

@@ -5,12 +5,14 @@ import './style/base.css'
 import  'animate.css/animate.css'
 import VueLazyload from 'vue-lazyload'
 import axios from  './utils/axios'
+import store from './store/store'
 Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
 

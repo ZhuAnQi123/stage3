@@ -1,6 +1,7 @@
 <template>
   <div class="classification">
     <div class="head">
+      <span v-show="sonshow" @click="sonBack">＜</span>
       <h3>分类</h3>
       <span class="iconfont" @click="back">&#xe616;</span>
     </div>
@@ -16,19 +17,18 @@
   </div>
 </template>
 
-
 <script>
 import { getClassification } from "../../api/api";
 import SecondClassification from "../secondClassification";
 export default {
   components: { SecondClassification },
-
   data() {
     return {
       firstOrder: [],
       secondOrder: [],
       secondData: [],
-      sonShow: false
+      sonShow: false,
+      sonshow: false,
     };
   },
   mounted() {
@@ -58,6 +58,11 @@ export default {
       this.secondData = this.secondOrder[index];
       this.$refs["greadOne"].style.display = "none";
       this.sonShow = true;
+      this.sonshow = true;
+    },
+    sonBack() {
+      this.sonShow = false;
+      this.$refs["greadOne"].style.display = "block";
     }
   }
 };
@@ -70,19 +75,24 @@ export default {
   width: 100%;
   .h(57.6);
   .head {
-    padding: 0 11.5px 0 42%;
+    padding: 0 11.5px 0 11.5px;
     h3 {
       .f_z(20);
       display: inline-block;
       .h(47);
       .l_h(47);
+      margin-left: 35%;
     }
     span {
-      .f_z(25);
       display: block;
-      float: right;
+      float: left;
       .h(57);
+      .f_z(30);
       .l_h(57);
+    }
+    .iconfont{
+      .f_z(25);
+      float: right;
     }
   }
   .content {

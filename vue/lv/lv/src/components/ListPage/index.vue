@@ -22,7 +22,12 @@
     </div>
     <div class="wrapper" ref="wrapper">
       <div class="goodBox">
-        <div class="goods" v-for="(item,index) in goodList" :key="index">
+        <div
+          class="goods"
+          v-for="(item,index) in goodList"
+          :key="index"
+          @click="jumpDetails(id,item.sku)"
+        >
           <img :src="item.image" />
           <h5>{{item.name}}</h5>
           <p>香港快送直营</p>
@@ -32,12 +37,11 @@
         </div>
       </div>
     </div>
+    <router-view></router-view>
   </div>
 </template>
+
 <script>
-
-
-
 import { getListPage } from "../../api/api"; //下拉更新数据
 import BS from "better-scroll";
 import Pullup from "@better-scroll/pull-up";
@@ -61,6 +65,25 @@ export default {
     },
     highLight(name) {
       this.active = name;
+      switch (name) {
+        case "综合":
+          console.log("综合");
+          break;
+        case "销量":
+          console.log("销量");
+          break;
+        case "上架时间▾":
+          console.log("上架时间▾");
+          break;
+        case "价格▾":
+          console.log("价格▾");
+          break;
+        case "筛选":
+          console.log("筛选");
+          break;
+        default:
+          break;
+      }
     },
     initBs() {
       let wrapper = this.$refs.wrapper;
@@ -88,6 +111,9 @@ export default {
           this.BS.refresh();
         }, 500);
       });
+    },
+    jumpDetails(id, goodId) {
+      this.$router.push(`/classification/:${id}/${goodId}`);
     }
   },
   mounted() {
@@ -103,8 +129,6 @@ export default {
         this.goodList.push(res.data.list.rows[index]);
       }
     });
-  },
-  updated() {
     console.log(this.goodList);
   },
   created() {
