@@ -6,14 +6,14 @@
       <span class="iconfont" @click="jumpHome">&#xe625;</span>
     </div>
     <div class="search">
-      <input type="text" />
-      <span class="iconfont">&#xe7a8;</span>
+      <input type="text" v-model="input1" @focus="ask()" />
+      <span class="iconfont" v-on:click="search">&#xe7a8;</span>
     </div>
     <ul class="filter">
       <li
         v-for="(item,index) in filterData"
         :key="index"
-        @click="highLight(item)"
+        @click="highLight(item,upOrDown)"
         :class="{active : active == item}"
       >{{item}}</li>
     </ul>
@@ -22,12 +22,7 @@
     </div>
     <div class="wrapper" ref="wrapper">
       <div class="goodBox">
-        <div
-          class="goods"
-          v-for="(item,index) in goodList"
-          :key="index"
-          @click="jumpDetails(id,item.sku)"
-        >
+        <div class="goods" v-for="(item,index) in goodList" :key="index" @click="jumpDetails(item)">
           <img :src="item.image" />
           <h5>{{item.name}}</h5>
           <p>香港快送直营</p>
@@ -48,35 +43,70 @@ import Pullup from "@better-scroll/pull-up";
 export default {
   data() {
     return {
+      input1: "", //绑定输入框的值
       filterData: ["综合", "销量", "上架时间▾", "价格▾", "筛选"],
       active: "", //控制高亮
       tagData: [], //标签数据
       id: "", //ajax传参
       page: 2, //ajax传参
-      goodList: [] //商品数据
+      goodList: [], //商品数据
+      upOrDown: true, //筛选需要
+      isOk: true //防止tag重复渲染
     };
   },
   methods: {
+    search() {
+      let searchData = [];
+      this.goodList.map((item, index) => {
+        if (item.name.indexOf(this.input1) == -1) {
+        } else {
+          searchData.push(item);
+        }
+      });
+      this.goodList = searchData;
+    },
     jump() {
       this.$router.push({ path: "/classification" });
     },
     jumpHome() {
       this.$router.push({ path: "/" });
     },
-    highLight(name) {
+    highLight(name, upOrDown) {
       this.active = name;
+      //封装筛选函数
+      let sort = sortTag => {
+        this.goodList.sort(function(a, b) {
+          if (upOrDown) {
+            upOrDown = false;
+            return a[sortTag] - b[sortTag];
+          } else {
+            upOrDown = true;
+            return b[sortTag] - a[sortTag];
+          }
+        });
+        console.log(upOrDown);
+      };
+      //根据点击内容整理数据
       switch (name) {
         case "综合":
-          console.log("综合");
+          this.goodList.sort(function(a, b) {
+            if (upOrDown) {
+              upOrDown = false;
+              return a.__ob__.dep.id - b.__ob__.dep.id;
+            } else {
+              upOrDown = true;
+              return b.__ob__.dep.id - a.__ob__.dep.id;
+            }
+          });
           break;
         case "销量":
-          console.log("销量");
+          sort("pid");
           break;
         case "上架时间▾":
-          console.log("上架时间▾");
+          sort("marketPrice");
           break;
         case "价格▾":
-          console.log("价格▾");
+          sort("price");
           break;
         case "筛选":
           console.log("筛选");
@@ -112,24 +142,43 @@ export default {
         }, 500);
       });
     },
-    jumpDetails(id, goodId) {
-      this.$router.push(`/classification/:${id}/${goodId}`);
+    jumpDetails(item) {
+      //将商品对象做好--->做成字符串传递
+
+      this.$router.push({
+        name: "Details",
+        params: {
+          name: item.name,
+          marketPrice: item.marketPrice,
+          price: item.price,
+          url: item.image,
+          brandCountryRegion: item.brandCountryRegion
+        }
+      });
+    },
+    ask() {
+      //从网址中拿id
+      this.id = this.$route.params.id.slice(1);
+      getListPage(this.id, this.page).then(res => {
+        console.log(res.data);
+
+        if (this.isOk) {
+          //取得tag的数据
+          res.data.filters.producttag.map((ele, i) => {
+            this.tagData.push(ele.name);
+          });
+        }
+
+        //取得商品的数据
+        for (let index = 0; index < res.data.list.rows.length; index++) {
+          this.goodList.push(res.data.list.rows[index]);
+        }
+        this.isOk = false;
+      });
     }
   },
   mounted() {
-    //从网址中拿id
-    this.id = this.$route.params.id.slice(1);
-    getListPage(this.id, this.page).then(res => {
-      //取得tag的数据
-      res.data.filters.producttag.map((ele, i) => {
-        this.tagData.push(ele.name);
-      });
-      //取得商品的数据
-      for (let index = 0; index < res.data.list.rows.length; index++) {
-        this.goodList.push(res.data.list.rows[index]);
-      }
-    });
-    console.log(this.goodList);
+    this.ask();
   },
   created() {
     this.$nextTick(() => {
@@ -174,7 +223,9 @@ export default {
     }
   }
   .search {
-    padding: 10px 5%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5%;
     background-color: white;
     position: relative;
     .h(30);
@@ -192,7 +243,7 @@ export default {
     .iconfont {
       position: absolute;
       color: grey;
-      right: 80px;
+      right: 60px;
       top: 15px;
       .f_z(20);
     }

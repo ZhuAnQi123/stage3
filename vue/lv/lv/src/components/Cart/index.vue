@@ -8,29 +8,42 @@
       <h3>
         <input type="checkbox" id="leadCheck" /> 香港特快直送
       </h3>
-      <li>
+      <li v-for="(item,index) in this.$store.state.cartArr" :key="index">
         <input type="checkbox" id="eachCheck" />
-        <img
-          src="https://www.hksasa.cn/media/catalog/product/cache/9bb9d677791f8666003e194c8a94aeff/9/4/94546ac32f45e68a4cc374be7292a085dabb1ec7_3.jpg"
-          alt
-        />
-        <h5>男士清爽控油洗面乳</h5>
-        <p class="freight">预计运费￥24.5</p>
-        <span class="price">￥189</span>
+        <img v-bind:src="item.url" alt />
+        <h5>{{item.name}}</h5>
+        <p class="freight">预计运费￥10</p>
+        <span class="price">￥{{item.price}}</span>
         <div class="numControl">
-          <p>+</p>
-          <input type="text" />
+          <p @click="addStore()">+</p>
+          <input type="text" v-model="item.num" />
           <p>-</p>
         </div>
-        <p class="del">删除</p>
+        <p @click="declineStore()" class="del">删除</p>
       </li>
+      <div class="noShit" v-if='show'>您还没有添加商品~</div>
     </ul>
   </div>
 </template>
 
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      show: true
+    };
+  },
+  mounted() {
+    if(this.$store.state.cartArr.length){
+      this.show=false
+    }
+  },
+  methods: {
+    addStore() {},
+    declineStore() {}
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -72,6 +85,11 @@ export default {};
     margin: auto;
     .w(351);
     border-radius: 10px;
+   .noShit{
+     .f_z(25);
+     padding: 10px 0;
+     text-align: center;
+   }
     h3 {
       .h(44);
       .f_z(12);

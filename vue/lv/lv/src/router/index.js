@@ -33,12 +33,12 @@ const routes = [
       {
         path: '/classification/:id',
         component: ListPage,
-        children: [
-          {
-            path: '/classification/:id/:goodId',
-            component: Details,
-          }
-        ]
+      }
+      ,
+      {
+        name: 'Details',
+        path: '/classification/:goodId',
+        component: Details,
       }
     ]
   },
