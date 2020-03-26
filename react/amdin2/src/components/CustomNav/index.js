@@ -11,13 +11,12 @@ import menuList from './menulist'
 const { SubMenu } = Menu;
 
 function handleClick(e) {
-  // 点击获取跳转路径通过编程式导航实现跳转，打印一下就知道了嗷，有很对对象方法
+  // 点击获取跳转路径通过编程式导航实现跳转
   console.log(e)
   let {path} = e.item.props 
   this.props.history.replace(path)
 }
 class CustomNav extends Component {
-  //如果需要渲染icon图标👇
   renderIcon(icon){
     // switch (icon) {
     //   case 'home':
@@ -46,7 +45,7 @@ class CustomNav extends Component {
               </span>
             )
           })()}>
-            {/*回调函数： 如果里面还有2级 将渲染的方法在调用一遍 */}
+            {/* 如果里面还有2级 将渲染的方法在调用一遍 */}
             {this.renderItem(item.children)}
           </SubMenu>
         )
