@@ -1,3 +1,5 @@
+// 由于比较多地方都要用到将他封装在/utils/loadable
+
 import React  from 'react'
 import LoadAble from 'react-loadable'
 // LoadAble高阶组件
