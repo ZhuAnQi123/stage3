@@ -45,7 +45,7 @@ class CustomNav extends Component {
               </span>
             )
           })()}>
-            {/* 如果里面还有2级 将渲染的方法在调用一遍 */}
+            {/* 回调函数处理里面还有二级的情况*/}
             {this.renderItem(item.children)}
           </SubMenu>
         )

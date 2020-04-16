@@ -7,7 +7,7 @@ import {Card, message} from 'antd';
 class GoodsAdd extends Component {
   state = {
     "name":"默认名字",
-    "desc":'超好吃,是真的超好吃不是假的超好吃',
+    "desc":'默认描述',
     "path":null,
     "link":"http://www.baidu.com",
     "stock":0,
@@ -24,13 +24,14 @@ class GoodsAdd extends Component {
   }
   // 添加商品
   submit=async()=>{
+    //前面的path给的是null，需要添加
    if (!this.state.path){return message.info('请先上传图片')}
    let {code,msg}  = await goodsApi.add(this.state)
    if(code){ return message.error(msg)}
    console.log(this)
    this.props.history.replace('/admin/goodsInfo')
-
   }
+
   // 图片上传
   upload= async ()=>{
     // 1. 获取图片里的内容
@@ -46,7 +47,8 @@ class GoodsAdd extends Component {
     // 将图片转化为formdata 
     let formdata = new FormData()
     formdata.append('hehe',file)
-    let {code,msg,path} = await uploadApi.img(formdata)
+    //code,msg,path.打印返回结果找🤦‍
+    let {code,msg,path} = await uploadApi.getImg(formdata)
     if(code){ return message.error(msg)}
     this.setState({path})
   }

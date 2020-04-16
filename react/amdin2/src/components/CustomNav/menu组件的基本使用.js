@@ -1,3 +1,6 @@
+
+// 不看我
+
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom'
 import { Menu } from 'antd';
@@ -7,7 +10,6 @@ function handleClick(e) {
   // 点击获取跳转路径通过编程式导航实现跳转
   let {path} = e.item.props 
   this.props.history.replace(path)
-
 }
 class CustomNav extends Component {
   render(){

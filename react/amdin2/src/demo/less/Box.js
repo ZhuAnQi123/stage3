@@ -8,7 +8,6 @@ function Box() {
     <div className={Style.hehe}>
      <h1 className={Style.test}>lessDemo111</h1> 
      <div id={Style.div1}>
-
      </div>
     </div>
   );

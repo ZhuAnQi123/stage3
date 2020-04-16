@@ -22,7 +22,6 @@ class GoodsAdd extends Component {
    if(code){ return message.error(msg)}
    console.log(this)
    this.props.history.replace('/admin/goodsInfo')
-
   }
   // 图片上传
   upload= async ()=>{

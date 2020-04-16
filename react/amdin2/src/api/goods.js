@@ -4,6 +4,7 @@ class Goods {
     let url ='/mall/goods/'+id
     return axios.get(url)
   }
+  //先传入默认值
   list(page = 1,pageSize =2){
     // localhost:3000/goods?page=1&pageSize=5
     let url ='/mall/goods'

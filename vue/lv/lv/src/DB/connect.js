@@ -1,4 +1,4 @@
-let dburl = 'mongodb+srv://anqizhu:<password>@cluster0-bgnyq.mongodb.net/test?retryWrites=true&w=majority'
+let dburl = 'mongodb+srv://xiaoyonghong:<password>@cluster0-ktxjo.mongodb.net/test?retryWrites=true&w=majority'
 const mongoose = require('mongoose')
 mongoose.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;

@@ -36,8 +36,6 @@ class App extends Component {
               <Route path='/admin/echarts/pie' component={EchartsPie}></Route>
               <Route path='/admin/echarts/line' component={EchartsLine}></Route>
               <Route path='/admin/echarts/bar' component={EchartsBar}></Route>
-
-
             </Admin>
           )
         }}></Route>
